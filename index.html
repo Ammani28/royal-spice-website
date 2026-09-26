@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Spice - Fine Dining & Authentic Indian Cuisine</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    },
+                    colors: {
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#AA8C2C',
+                        },
+                        darkBg: '#121212',
+                        cardBg: '#1A1A1A'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0f0f0f;
+            color: #e5e5e5;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-200 antialiased selection:bg-gold selection:text-black">
+
+    <nav class="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-gold/20 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#home" class="flex items-center space-x-2">
+                    <span class="text-2xl md:text-3xl font-serif font-bold tracking-wider text-gold">ROYAL SPICE</span>
+                    <span class="text-xs uppercase tracking-widest text-gray-400 hidden sm:inline-block">| Fine Dining</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-sm uppercase tracking-wider hover:text-gold transition-colors">Home</a>
+                    <a href="#about" class="text-sm uppercase tracking-wider hover:text-gold transition-colors">About</a>
+                    <a href="#menu" class="text-sm uppercase tracking-wider hover:text-gold transition-colors">Menu</a>
+                    <a href="#reservation" class="text-sm uppercase tracking-wider hover:text-gold transition-colors">Reservation</a>
+                    <a href="#contact" class="text-sm uppercase tracking-wider hover:text-gold transition-colors">Contact</a>
+                </div>
+
+                <!-- Reserve Button -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#reservation" class="px-6 py-2.5 border border-gold text-gold hover:bg-gold hover:text-black font-medium text-sm tracking-widest uppercase transition-all duration-300 rounded-full">
+                        Book a Table
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center space-x-3">
+                    <button id="mobile-menu-btn" class="text-gold focus:outline-none text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-b border-gold/20 px-4 pt-2 pb-6 space-y-4">
+            <a href="#home" class="block text-center text-sm uppercase tracking-wider hover:text-gold py-2">Home</a>
+            <a href="#about" class="block text-center text-sm uppercase tracking-wider hover:text-gold py-2">About</a>
+            <a href="#menu" class="block text-center text-sm uppercase tracking-wider hover:text-gold py-2">Menu</a>
+            <a href="#reservation" class="block text-center text-sm uppercase tracking-wider hover:text-gold py-2">Reservation</a>
+            <a href="#contact" class="block text-center text-sm uppercase tracking-wider hover:text-gold py-2">Contact</a>
+            <div class="text-center pt-2">
+                <a href="#reservation" class="inline-block w-full py-3 bg-gold text-black font-semibold text-sm tracking-widest uppercase rounded-full">
+                    Book a Table
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1920&q=80" alt="Royal Spice Ambiance" class="w-full h-full object-cover filter brightness-50 scale-105 animate-pulse duration-[10000ms]">
+            <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-black/40 to-black/60"></div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center mt-12">
+            <span class="inline-block text-gold text-sm md:text-base uppercase tracking-[0.3em] mb-4 font-semibold">
+                Authentic Indian Royal Flavors
+            </span>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
+                Welcome to <span class="text-gold italic">Royal Spice</span>
+            </h1>
+            <p class="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                Experience heritage recipes crafted with aromatic spices, fresh ingredients, and royal hospitality.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="#reservation" class="w-full sm:w-auto px-8 py-4 bg-gold text-black font-semibold uppercase tracking-wider rounded-full hover:bg-gold-light transition-all duration-300 shadow-lg shadow-gold/20">
+                    Book a Table
+                </a>
+                <a href="#menu" class="w-full sm:w-auto px-8 py-4 border border-white/40 text-white font-semibold uppercase tracking-wider rounded-full hover:border-gold hover:text-gold transition-all duration-300">
+                    Explore Menu
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 bg-darkBg relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="grid grid-cols-2 gap-4 relative">
+                    <div class="space-y-4">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=600&q=80" alt="Restaurant Interior Ambiance" class="rounded-lg shadow-2xl object-cover h-64 w-full border border-gold/10">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Fine Dining Setup" class="rounded-lg shadow-2xl object-cover h-80 w-full border border-gold/10">
+                    </div>
+                    <div class="space-y-4 pt-12">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Royal Dining Hall" class="rounded-lg shadow-2xl object-cover h-80 w-full border border-gold/10">
+                        <img src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?auto=format&fit=crop&w=600&q=80" alt="Bar and Lounge" class="rounded-lg shadow-2xl object-cover h-64 w-full border border-gold/10">
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-gold uppercase tracking-[0.2em] text-sm font-semibold block mb-3">Our Heritage</span>
+                    <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white mb-6 leading-tight">
+                        Royal Recipes & <span class="text-gold italic">Timeless Tradition</span>
+                    </h2>
+                    <p class="text-gray-300 text-base sm:text-lg mb-6 leading-relaxed font-light">
+                        At Royal Spice, we bring centuries-old culinary traditions from the royal kitchens of India straight to your table. Every dish is a symphony of hand-ground spices, tender meats, fresh farm vegetables, and authentic passion, served in an exquisite, majestic ambiance.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 my-8 border-y border-white/10 py-6">
+                        <div>
+                            <h3 class="text-3xl sm:text-4xl font-serif font-bold text-gold mb-1">20+</h3>
+                            <p class="text-gray-400 text-sm uppercase tracking-wider">Master Spice Blends</p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl sm:text-4xl font-serif font-bold text-gold mb-1">100%</h3>
+                            <p class="text-gray-400 text-sm uppercase tracking-wider">Authentic Taste</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="h-px bg-gold w-16"></div>
+                        <span class="font-serif italic text-gold text-lg">"Master Chef Raghavan"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="py-24 bg-[#141414] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold uppercase tracking-[0.2em] text-sm font-semibold block mb-3">Culinary Masterpieces</span>
+                <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white mb-4">Royal Spice Menu</h2>
+                <p class="text-gray-400 text-base sm:text-lg font-light">Explore our handcrafted starters, rich gravies, aromatic biryanis, and refreshing beverages.</p>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="flex justify-center flex-wrap gap-3 mb-12">
+                <button onclick="filterMenu('all')" class="menu-tab active px-6 py-2.5 rounded-full text-sm uppercase tracking-wider font-semibold transition-all duration-300 bg-gold text-black">All</button>
+                <button onclick="filterMenu('starters')" class="menu-tab px-6 py-2.5 rounded-full text-sm uppercase tracking-wider font-semibold transition-all duration-300 bg-cardBg text-gray-300 hover:border-gold border border-white/10">Starters</button>
+                <button onclick="filterMenu('mains')" class="menu-tab px-6 py-2.5 rounded-full text-sm uppercase tracking-wider font-semibold transition-all duration-300 bg-cardBg text-gray-300 hover:border-gold border border-white/10">Main Course</button>
+                <button onclick="filterMenu('biryanis')" class="menu-tab px-6 py-2.5 rounded-full text-sm uppercase tracking-wider font-semibold transition-all duration-300 bg-cardBg text-gray-300 hover:border-gold border border-white/10">Biryanis</button>
+                <button onclick="filterMenu('breads')" class="menu-tab px-6 py-2.5 rounded-full text-sm uppercase tracking-wider font-semibold transition-all duration-300 bg-cardBg text-gray-300 hover:border-gold border border-white/10">Breads</button>
+                <button onclick="filterMenu('beverages')" class="menu-tab px-6 py-2.5 rounded-full text-sm uppercase tracking-wider font-semibold transition-all duration-300 bg-cardBg text-gray-300 hover:border-gold border border-white/10">Beverages</button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="menu-item starters flex items-center justify-between p-6 bg-cardBg rounded-xl border border-white/5 hover:border-gold/50 transition-all duration-300 group">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=150&q=80" alt="Paneer Tikka" class="w-20 h-20 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-white group-hover:text-gold transition-colors">Paneer Tikka</h3>
+                            <p class="text-gray-400 text-sm mt-1">Cottage cheese cubes marinated in spiced yogurt and grilled in tandoor.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item starters flex items-center justify-between p-6 bg-cardBg rounded-xl border border-white/5 hover:border-gold/50 transition-all duration-300 group">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?auto=format&fit=crop&w=150&q=80" alt="Chicken 65" class="w-20 h-20 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-white group-hover:text-gold transition-colors">Chicken 65</h3>
+                            <p class="text-gray-400 text-sm mt-1">Spicy, deep-fried chicken appetizer tossed with curry leaves and green chilies.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item mains flex items-center justify-between p-6 bg-cardBg rounded-xl border border-white/5 hover:border-gold/50 transition-all duration-300 group">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=150&q=80" alt="Butter Chicken" class="w-20 h-20 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-white group-hover:text-gold transition-colors">Butter Chicken</h3>
+                            <p class="text-gray-400 text-sm mt-1">Tender chicken in a rich, buttery, and creamy tomato-based fenugreek gravy.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item biryanis flex items-center justify-between p-6 bg-cardBg rounded-xl border border-white/5 hover:border-gold/50 transition-all duration-300 group">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=150&q=80" alt="Biryani" class="w-20 h-20 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300">
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-white group-hover:text-gold transition-colors">Hyderabadi Dum Biryani</h3>
+                            <p class="text-gray-400 text-sm mt-1">Fragrant basmati rice layered with marinated chicken, saffron, and slow-cooked in dum.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section id="reservation" class="py-24 bg-darkBg relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-cardBg border border-gold/20 rounded-2xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full filter blur-2xl"></div>
+
+                <div class="text-center mb-10">
+                    <span class="text-gold uppercase tracking-[0.2em] text-sm font-semibold block mb-2">Table Booking</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">Choose Your Table & Reserve</h2>
+                </div>
+
+                <form id="reservation-form" onsubmit="handleReservation(event)" class="space-y-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+            <input type="text" id="res-name" required class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold" placeholder="Enter your full name">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+            <input type="tel" id="res-phone" required class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold" placeholder="Enter your phone number">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Booking Date</label>
+            <input type="date" id="res-date" required class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Start Time</label>
+            <input type="time" id="res-time" required class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold">
+        </div>
+        <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-300 mb-2">Select Table & Seating</label>
+            <select id="res-table" class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold">
+                <option value="Table-2">Table 01 (2-Seater)</option>
+                <option value="Table-4">Table 02 (4-Seater Family)</option>
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="w-full py-4 bg-gold text-black font-bold uppercase tracking-wider rounded-xl hover:bg-gold-light transition-all shadow-lg">
+        Confirm Reservation
+    </button>
+</form>
+
+                <!-- Success Box -->
+                <div id="success-box" class="hidden mt-6 p-4 bg-green-900/40 border border-green-500/50 rounded-lg text-center text-green-200">
+                    <i class="fa-solid fa-circle-check text-green-400 text-xl mr-2"></i>
+                    <span id="success-msg"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-black border-t border-gold/20 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div class="space-y-4">
+                    <span class="text-2xl font-serif font-bold tracking-wider text-gold">ROYAL SPICE</span>
+                    <p class="text-gray-400 text-sm leading-relaxed font-light">
+                        The ultimate destination for authentic Indian fine dining, rich gravies, and royal hospitality.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-white font-serif font-bold text-lg mb-4">Opening Hours</h3>
+                    <p class="text-gray-400 text-sm">Mon - Sun: 11:30 AM - 11:30 PM</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-serif font-bold text-lg mb-4">Location</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Banjara Hills Road No. 2, Hyderabad</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-serif font-bold text-lg mb-4">Contact</h3>
+                    <p class="text-gold text-sm font-semibold">+91 98765 12345</p>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center text-gray-500 text-xs">
+                &copy; 2026 Royal Spice Fine Dining Restaurant. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase & Script Integration -->
+    <!-- Supabase & Script Integration -->
+<script>
+    // 1. Page load avvagane URL lo table_id undho ledo check cheyali
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tableId = urlParams.get('table_id');
+        const resId = urlParams.get('res_id');
+
+        if (tableId) {
+            transformToDineInMenu(tableId, resId);
+        }
+    });
+
+    // 2. Website ni Dine-In Ordering Menu ga marche function
+    function transformToDineInMenu(tableId, resId) {
+        const navContainer = document.querySelector('nav');
+        if (navContainer) {
+            navContainer.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+                    <span class="text-2xl font-serif font-bold text-gold">ROYAL SPICE — Table ${tableId}</span>
+                    <div class="bg-gold/20 text-gold px-4 py-1.5 rounded-full text-sm font-semibold border border-gold/40 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+                        Live Dine-In Ordering
+                    </div>
+                </div>
+            `;
+        }
+
+        const heroSection = document.getElementById('home');
+        const aboutSection = document.getElementById('about');
+        const reservationSection = document.getElementById('reservation');
+
+        if (heroSection) heroSection.style.display = 'none';
+        if (aboutSection) aboutSection.style.display = 'none';
+        if (reservationSection) reservationSection.style.display = 'none';
+
+        enableInteractiveOrdering(tableId, resId);
+    }
+
+    function enableInteractiveOrdering(tableId, resId) {
+        const menuGrid = document.getElementById('menu-grid');
+        if (!menuGrid) return;
+        
+        const menuCards = menuGrid.querySelectorAll('.menu-item');
+        menuCards.forEach((card) => {
+            const titleEl = card.querySelector('h3');
+            if (!titleEl) return;
+            const itemName = titleEl.innerText;
+            
+            const actionDiv = document.createElement('div');
+            actionDiv.className = "mt-4 flex items-center justify-between";
+            actionDiv.innerHTML = `
+                <span class="text-gold font-bold">₹250</span>
+                <button onclick="addToCart('${itemName}', 250, '${tableId}')" class="px-4 py-2 bg-gold text-black font-semibold text-xs uppercase tracking-wider rounded-lg hover:bg-gold-light transition-all">
+                    <i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart
+                </button>
+            `;
+            const innerDiv = card.querySelector('div > div');
+            if (innerDiv) {
+                innerDiv.appendChild(actionDiv);
+            }
+        });
+
+        const cartBar = document.createElement('div');
+        cartBar.id = "live-cart-bar";
+        cartBar.className = "fixed bottom-0 left-0 w-full bg-black/95 border-t border-gold/40 p-4 z-50 flex items-center justify-between max-w-4xl mx-auto rounded-t-2xl shadow-2xl backdrop-blur-md";
+        cartBar.style.left = "50%";
+        cartBar.style.transform = "translateX(-50%)";
+        cartBar.innerHTML = `
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-basket-shopping text-gold text-2xl"></i>
+                <div>
+                    <p class="text-white text-sm font-semibold">Table ${tableId} Order</p>
+                    <p class="text-gray-400 text-xs" id="cart-item-count">0 items selected</p>
+                </div>
+            </div>
+            <button onclick="placeOrder('${tableId}', '${resId}')" class="px-6 py-3 bg-gold text-black font-bold uppercase tracking-wider rounded-xl hover:bg-gold-light transition-all shadow-lg">
+                Place Order to Kitchen
+            </button>
+        `;
+        document.body.appendChild(cartBar);
+    }
+
+    let cart = [];
+    function addToCart(name, price, tableId) {
+        cart.push({ name, price });
+        const counter = document.getElementById('cart-item-count');
+        if (counter) {
+            counter.innerText = `${cart.length} items in cart`;
+        }
+        alert(`${name} cart loki add aypoyindi!`);
+    }
+
+    // 3. Place Order to Kitchen (Supabase orders table)
+    async function placeOrder(tableId, resId) {
+        if (cart.length === 0) {
+            alert('Cart lo em items levu!');
+            return;
+        }
+
+        const SUPABASE_URL = 'https://dfijxyaapeyphtqzsctu.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmaWp4eWFhcGV5cGh0cXpzY3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3NjU0MzQsImV4cCI6MjEwNDM0MTQzNH0.J_gG6FTBZ-wXZb0wpaK0ocJp0V0vLlCg1PxmOUNO3zY';
+        
+        // Safe global client initialization
+        const activeSupabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const { error } = await activeSupabase.from('orders').insert([{
+            restaurant_id: resId || 'D360-KAT-8315',
+            table_id: tableId,
+            items: cart,
+            status: 'Pending'
+        }]);
+
+        if (error) {
+            alert('Order placement failed: ' + error.message);
+        } else {
+            alert('Order successfully placed to Kitchen! Dine360 dashboard lo update avthundi.');
+            cart = [];
+            const counter = document.getElementById('cart-item-count');
+            if (counter) {
+                counter.innerText = `0 items selected`;
+            }
+        }
+    }
+
+    // 4. Table Reservation Handler (Fixed for Confirm Button)
+    window.handleReservation = async function(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('res-name').value;
+    const phone = document.getElementById('res-phone').value;
+    const bookingDate = document.getElementById('res-date').value;
+    const startTime = document.getElementById('res-time').value;
+    const tableId = document.getElementById('res-table').value;
+
+    const SUPABASE_URL = 'https://dfijxyaapeyphtqzsctu.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmaWp4eWFhcGV5cGh0cXpzY3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3NjU0MzQsImV4cCI6MjEwNDM0MTQzNH0.J_gG6FTBZ-wXZb0wpaK0ocJp0V0vLlCg1PxmOUNO3zY';
+    const activeSupabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 1. Supabase database lo save cheyadam
+    const { error } = await activeSupabase
+        .from('table_reservations')
+        .insert([{
+            restaurant_id: 'D360-KAT-8315',
+            customer_name: name,
+            phone: phone,
+            table_id: tableId,
+            booking_date: bookingDate,
+            start_time: startTime,
+            status: 'Confirmed'
+        }]);
+
+    if (error) {
+        console.error('Reservation Error:', error.message);
+        alert('Reservation failed: ' + error.message);
+    } else {
+        // 2. Success ayyaka WhatsApp message trigger cheyadam
+        // Phone number formatting (India +91 prefix)
+        const cleanPhone = phone.replace(/\D/g, ''); // Kevalam numbers matrame theeskovadaniki
+        const whatsappMessage = `Hello *${name}*, your table reservation at *Royal Spice* is confirmed!%0A%0A*Table:* ${tableId}%0A*Date:* ${bookingDate}%0A*Time:* ${startTime}%0A%0AThank you for booking with us!`;
+        
+        const whatsappUrl = `https://wa.me/91${cleanPhone}?text=${whatsappMessage}`;
+        
+        // WhatsApp web/app open avthundi automatic ga message tho patu
+        window.open(whatsappUrl, '_blank');
+
+        alert(`Table Successfully Reserved! Confirmation redirected to WhatsApp for ${name}.`);
+        document.getElementById('reservation-form').reset();
+    }
+};
+</script>
+</body>
+</html>
